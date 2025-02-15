@@ -43,6 +43,8 @@ int main(int argc, char *argv[]) {
    int fd[2];
 
    // Create pipe and store file descriptors in fd.
+   // fd[0] - read
+   // fd[1] - write
    if(pipe(fd) == -1) {
       fprintf(stderr, "Error: Pipe not created.\n");
    };
@@ -52,7 +54,18 @@ int main(int argc, char *argv[]) {
 
    if(id != 0) {
       // If id is not 0, we're in the parent process.
-      printf("In parent process with id %d.\n", id);
+      // Close the read end of the pipe immediately.
+      close(fd[0]);
+
+      // Write the source file to the write end of the pipe.
+      int c;
+      while((c = fgetc(sourcePtr)) != EOF) {
+         putchar(c);
+      }
+
+      // Close the file and write end of the pipe.
+      fclose(sourcePtr);
+      close(fd[1]);
    }
    else {
       // Otherwise we're in the child process.
