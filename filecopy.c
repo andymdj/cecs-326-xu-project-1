@@ -46,4 +46,7 @@ int main(int argc, char *argv[]) {
    if(pipe(fd) == -1) {
       fprintf(stderr, "Error: Pipe not created.\n");
    };
+
+   // Fork the main process.
+   int id = fork();
 }
