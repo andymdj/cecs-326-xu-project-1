@@ -70,6 +70,18 @@ int main(int argc, char *argv[]) {
    }
    else {
       // Otherwise we're in the child process.
-      printf("In child process with id %d.\n", id);
+      // Close the write end of the pipe immediately.
+      close(fd[1]);
+
+      // Read from pipe and write to copy file.
+      int c;
+      FILE* pipeOut = fdopen(fd[0], "r");
+      while((c = fgetc(pipeOut)) != EOF) {
+         fputc(c, destPtr);
+      }
+
+      // Close the pipe stream and file descriptor.
+      fclose(pipeOut);
+      close(fd[1]);
    }
 }
