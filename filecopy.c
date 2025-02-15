@@ -52,6 +52,8 @@ int main(int argc, char *argv[]) {
    // Fork the main process.
    int id = fork();
 
+   // Code use for reading and writing taken and modified from
+   // https://www.gnu.org/software/libc/manual/html_node/Creating-a-Pipe.html
    if(id != 0) {
       // If id is not 0, we're in the parent process.
       // Close the read end of the pipe immediately.
