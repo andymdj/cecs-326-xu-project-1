@@ -38,4 +38,7 @@ int main(int argc, char *argv[]) {
       fprintf(stderr, "Error: No such file %s.\n", destName);
       return 0;
    }
+
+   // Create array for pipe file descriptors.
+   int fd[2];
 }
