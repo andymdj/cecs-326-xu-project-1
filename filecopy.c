@@ -17,7 +17,7 @@
 int main(int argc, char *argv[]) {
    // Check for correct number of arguments.
    if(argc != 3) {
-      fprintf(stderr, "Error: Please provide one input filename and one output file name.\n");
+      fprintf(stderr, "Error: Please provide one input file name and one output file name.\n");
       return 0;
    }
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
          fputc(c, pipeIn);
       }
 
-      // Close the pipe stream file descriptor.
+      // Close the pipe stream and file descriptor.
       fclose(pipeIn);
       close(fd[1]);
    }
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
       // Close the write end of the pipe immediately.
       close(fd[1]);
 
-      // Read from pipe and write to copy file.
+      // Read from pipe and write to destination file.
       int c;
       FILE* pipeOut = fdopen(fd[0], "r");
       while((c = fgetc(pipeOut)) != EOF) {
@@ -88,6 +88,8 @@ int main(int argc, char *argv[]) {
       printf("File successfully copied from %s to %s.\n", sourceName, destName);
    }
 
+   // Close source and destination files.
    fclose(sourcePtr);
    fclose(destPtr);
+   return 0;
 }
