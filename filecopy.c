@@ -84,4 +84,7 @@ int main(int argc, char *argv[]) {
       fclose(pipeOut);
       close(fd[1]);
    }
+
+   fclose(sourcePtr);
+   fclose(destPtr);
 }
