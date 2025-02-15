@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) {
       // Close the pipe stream and file descriptor.
       fclose(pipeOut);
       close(fd[1]);
+      printf("File successfully copied from %s to %s.\n", sourceName, destName);
    }
 
    fclose(sourcePtr);
