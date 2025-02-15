@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
    // Open the destination file in write mode.
    FILE* destPtr = fopen(destName, "w");
    if(destPtr == NULL) {
-      fprintf(stderr, "Error: No such file %s.\n", destName);
+      fprintf(stderr, "Error: Could not open file %s.\n", destName);
       return 0;
    }
 
