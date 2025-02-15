@@ -41,4 +41,9 @@ int main(int argc, char *argv[]) {
 
    // Create array for pipe file descriptors.
    int fd[2];
+
+   // Create pipe and store file descriptors in fd.
+   if(pipe(fd) == -1) {
+      fprintf(stderr, "Error: Pipe not created.\n");
+   };
 }
