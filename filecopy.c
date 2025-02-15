@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
    // Open the destination file in write mode.
    FILE* destPtr = fopen(destName, "w");
    if(destPtr == NULL) {
-      fprintf(stderr, "Error: No such file %s.\n", destName);
+      fprintf(stderr, "Error: Could not open file %s.\n", destName);
       return 0;
    }
 
@@ -43,7 +43,48 @@ int main(int argc, char *argv[]) {
    int fd[2];
 
    // Create pipe and store file descriptors in fd.
+   // fd[0] - read
+   // fd[1] - write
    if(pipe(fd) == -1) {
       fprintf(stderr, "Error: Pipe not created.\n");
    };
+
+   // Fork the main process.
+   int id = fork();
+
+   if(id != 0) {
+      // If id is not 0, we're in the parent process.
+      // Close the read end of the pipe immediately.
+      close(fd[0]);
+
+      // Read from source file and write to pipe.
+      int c;
+      FILE* pipeIn = fdopen(fd[1], "w");
+      while((c = fgetc(sourcePtr)) != EOF) {
+         fputc(c, pipeIn);
+      }
+
+      // Close the pipe stream file descriptor.
+      fclose(pipeIn);
+      close(fd[1]);
+   }
+   else {
+      // Otherwise we're in the child process.
+      // Close the write end of the pipe immediately.
+      close(fd[1]);
+
+      // Read from pipe and write to copy file.
+      int c;
+      FILE* pipeOut = fdopen(fd[0], "r");
+      while((c = fgetc(pipeOut)) != EOF) {
+         fputc(c, destPtr);
+      }
+
+      // Close the pipe stream and file descriptor.
+      fclose(pipeOut);
+      close(fd[1]);
+   }
+
+   fclose(sourcePtr);
+   fclose(destPtr);
 }
