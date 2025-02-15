@@ -17,10 +17,22 @@
 int main(int argc, char *argv[]) {
    // Check for correct number of arguments.
    if(argc != 3) {
-      printf("Error: Please provide one input filename and one output file name.\n");
+      fprintf(stderr, "Error: Please provide one input filename and one output file name.\n");
       return 0;
    }
 
    char* sourceName = argv[1];
    char* destName = argv[2];
+
+   FILE* sourcePtr = fopen(sourceName, "r");
+   if(sourcePtr == NULL) {
+      fprintf(stderr, "Error: No such file %s.\n", sourceName);
+      return 0;
+   }
+
+   FILE* destPtr = fopen(destName, "w");
+   if(destPtr == NULL) {
+      fprintf(stderr, "Error: No such file %s.\n", destName);
+      return 0;
+   }
 }
