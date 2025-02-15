@@ -49,4 +49,13 @@ int main(int argc, char *argv[]) {
 
    // Fork the main process.
    int id = fork();
+
+   if(id != 0) {
+      // If id is not 0, we're in the parent process.
+      printf("In parent process with id %d.\n", id);
+   }
+   else {
+      // Otherwise we're in the child process.
+      printf("In child process with id %d.\n", id);
+   }
 }
