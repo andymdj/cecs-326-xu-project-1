@@ -57,14 +57,15 @@ int main(int argc, char *argv[]) {
       // Close the read end of the pipe immediately.
       close(fd[0]);
 
-      // Write the source file to the write end of the pipe.
+      // Read from source file and write to pipe.
       int c;
+      FILE* pipeIn = fdopen(fd[1], "w");
       while((c = fgetc(sourcePtr)) != EOF) {
-         putchar(c);
+         fputc(c, pipeIn);
       }
 
-      // Close the file and write end of the pipe.
-      fclose(sourcePtr);
+      // Close the pipe stream file descriptor.
+      fclose(pipeIn);
       close(fd[1]);
    }
    else {
