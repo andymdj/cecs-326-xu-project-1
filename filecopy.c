@@ -1,15 +1,18 @@
 /*
  * filecopy.c
  *
- * This program opens a file and writes its contents to a pipe.
+ * This program copies files using a pipe.
+ *
  */
 
+#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-#define BUFFER_SIZE 25
-#define STRING_SIZE 25
+#define READ_END 0
+#define WRITE_END 1
 
 int main(int argc, char *argv[])
 {
